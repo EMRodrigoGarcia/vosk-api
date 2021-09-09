@@ -26,7 +26,7 @@ process = subprocess.Popen(['ffmpeg', '-loglevel', 'quiet', '-i',
                             stdout=subprocess.PIPE)
 
 
-WORDS_PER_LINE = 7
+WORDS_PER_LINE = 10
 
 def transcribe():
     results = []
@@ -53,4 +53,16 @@ def transcribe():
            subs.append(s)
     return subs
 
-print (srt.compose(transcribe()))
+
+if not os.path.exists('output'):
+    os.mkdir('output')
+
+output_name_file = sys.argv[1].split('.')[0]
+
+output_file = 'output/' + output_name_file + '.srt'
+
+o = open(output_file, 'w')
+
+o.write(srt.compose(transcribe()))
+
+o.close()
